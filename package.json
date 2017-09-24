@@ -12,14 +12,15 @@
     "pretest": "xo",
     "test": "npm run ava",
     "prebuild": "npm run test",
-    "build": "babel ./src -d ./dist"
+    "build": "babel ./src -d ./dist",
+    "fix": "xo --fix"
   },
   "author": "tony kerz",
   "license": "ISC",
   "dependencies": {
     "config": "^1.25.1",
-    "debug": "^2.6.0",
-    "fast-safe-stringify": "^1.1.3",
+    "debug": "^3.0.1",
+    "fast-safe-stringify": "^1.2.0",
     "jsondiffpatch": "^0.2.4",
     "lodash": "^4.17.4",
     "lru-cache": "^4.0.2",
@@ -27,32 +28,21 @@
     "tymer": "^1.0.3"
   },
   "devDependencies": {
-    "ava": "^0.18.1",
-    "babel-cli": "^6.22.2",
-    "babel-preset-env": "^1.1.8",
-    "cross-env": "^3.1.4",
-    "test-helpr": "^0.1.10",
-    "xo": "^0.17.1"
+    "ava": "^0.22.0",
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.0",
+    "cross-env": "^5.0.5",
+    "eslint-config-prettier": "^2.6.0",
+    "eslint-plugin-prettier": "^2.3.1",
+    "prettier": "^1.7.0",
+    "test-helpr": "^0.3.2",
+    "xo": "^0.18.2"
   },
   "ava": {
     "babel": "inherit",
-    "require": [
-      "babel-register",
-      "babel-polyfill"
-    ]
+    "require": ["babel-register", "babel-polyfill"]
   },
   "xo": {
-    "space": true,
-    "semicolon": false,
-    "rules": {
-      "no-console": "error",
-      "no-unused-expressions": [
-        "error",
-        {
-          "allowShortCircuit": true,
-          "allowTernary": true
-        }
-      ]
-    }
+    "useEslintrc": true
   }
 }

@@ -41,7 +41,7 @@ export function isLike({expected, actual, hooks}) {
     }
   }
 
-  const result = (expected === actual)
+  const result = expected === actual
   // result || _dbg({expected, actual})
   return result
 }
@@ -49,7 +49,7 @@ export function isLike({expected, actual, hooks}) {
 function isArrayLike({expected, actual, hooks}) {
   return (
     _.isArray(actual) &&
-    (expected.length === actual.length) &&
+    expected.length === actual.length &&
     _.every(expected, (elt, index) => {
       const result = isLike({expected: elt, actual: actual[index], hooks})
       result || dbg('!is-like: index=%o, expected=%j, actual=%j', index, elt, actual[index])

@@ -1,6 +1,12 @@
 import test from 'ava'
-import _ from 'lodash'
-import {setArgDefault, getArg, clearArgDefault, clearArgDefaults, getJsonArg, getRequiredArg} from '../../src'
+import {
+  setArgDefault,
+  getArg,
+  clearArgDefault,
+  clearArgDefaults,
+  getJsonArg,
+  getRequiredArg
+} from '../../src'
 
 test('setArgDefault', t => {
   const key = 'foo'

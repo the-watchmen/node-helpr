@@ -118,8 +118,20 @@ test('getKeyArray', t => {
   t.deepEqual(getKeyArray('foo', ['bar']), ['foo', SEPARATOR, 'bar'])
   t.deepEqual(getKeyArray(['foo'], 'bar'), ['foo', SEPARATOR, 'bar'])
   t.deepEqual(getKeyArray(['foo', 'bar']), ['foo', SEPARATOR, 'bar'])
-  t.deepEqual(getKeyArray(['foo', ['bar', SEPARATOR, 'baz']]), ['foo', SEPARATOR, 'bar', SEPARATOR, 'baz'])
-  t.deepEqual(getKeyArray([['foo', SEPARATOR, 'bar'], 'baz']), ['foo', SEPARATOR, 'bar', SEPARATOR, 'baz'])
+  t.deepEqual(getKeyArray(['foo', ['bar', SEPARATOR, 'baz']]), [
+    'foo',
+    SEPARATOR,
+    'bar',
+    SEPARATOR,
+    'baz'
+  ])
+  t.deepEqual(getKeyArray([['foo', SEPARATOR, 'bar'], 'baz']), [
+    'foo',
+    SEPARATOR,
+    'bar',
+    SEPARATOR,
+    'baz'
+  ])
 })
 
 test('compress', t => {
@@ -130,7 +142,9 @@ test('compress', t => {
   dbg('compress: compressed=[%s]', _s)
   dbg(
     'compress: uncompressed-length=%o, compressed-length=%o, ratio=%o',
-    s.length, _s.length, _s.length / s.length
+    s.length,
+    _s.length,
+    _s.length / s.length
   )
   t.is(s, decompress(_s))
 })
@@ -146,12 +160,14 @@ test('join', t => {
   t.is(join(null), null)
 })
 
-test('debugElements: object', () => {
+test('debugElements: object', t => {
   debugElements({dbg, msg: 'anObject', o: {foo: 'foo', bar: 'bar', baz: {bip: 'bip'}}})
+  t.pass()
 })
 
-test('debugElements: array', () => {
+test('debugElements: array', t => {
   debugElements({dbg, msg: 'anArray', o: [{foo: 'foo'}, {bar: 'bar'}, {baz: {bip: 'bip'}}]})
+  t.pass()
 })
 
 test('resolveValues', async t => {
@@ -160,13 +176,11 @@ test('resolveValues', async t => {
   const baz = 'baz'
 
   t.deepEqual(
-    await resolveValues(
-      {
-        [foo]: chill({millis: 5, resolution: foo}),
-        [bar]: chill({millis: 10, resolution: bar}),
-        [baz]: chill({millis: 15, resolution: baz})
-      }
-    ),
+    await resolveValues({
+      [foo]: chill({millis: 5, resolution: foo}),
+      [bar]: chill({millis: 10, resolution: bar}),
+      [baz]: chill({millis: 15, resolution: baz})
+    }),
     {foo, bar, baz}
   )
 })
@@ -177,8 +191,12 @@ test('isListed: basic', t => {
 })
 
 test('isListed: function', t => {
-  t.true(isListed({list: [({key, value}) => key === 'foo' && value === 'bar'], key: 'foo', value: 'bar'}))
-  t.false(isListed({list: [({key, value}) => key === 'foo' && value === 'bar'], key: 'foo', value: 'baz'}))
+  t.true(
+    isListed({list: [({key, value}) => key === 'foo' && value === 'bar'], key: 'foo', value: 'bar'})
+  )
+  t.false(
+    isListed({list: [({key, value}) => key === 'foo' && value === 'bar'], key: 'foo', value: 'baz'})
+  )
 })
 
 test('parseValue', t => {

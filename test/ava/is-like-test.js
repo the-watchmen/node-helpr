@@ -87,26 +87,29 @@ test('isLike: complex', t => {
         extension: '3375456619'
       },
       name: 'REGENTS OF THE UNIV OF CA',
-      identifiers: [{
-        authority: 'pac',
-        oid: 'pac',
-        extension: '3375456619'
-      }]
+      identifiers: [
+        {
+          authority: 'pac',
+          oid: 'pac',
+          extension: '3375456619'
+        }
+      ]
     },
-    specialties: [{
-      _id: '58f0eb1cd55e34a3cf221fae',
-      code: '1223X0400X',
-      grouping: 'DENTAL PROVIDERS',
-      classification: 'DENTIST',
-      specialization: 'ORTHODONTICS AND DENTOFACIAL ORTHOPEDICS',
-      system: '2.16.840.1.113883.6.101',
-      isPrimary: true
-    }],
+    specialties: [
+      {
+        _id: '58f0eb1cd55e34a3cf221fae',
+        code: '1223X0400X',
+        grouping: 'DENTAL PROVIDERS',
+        classification: 'DENTIST',
+        specialization: 'ORTHODONTICS AND DENTOFACIAL ORTHOPEDICS',
+        system: '2.16.840.1.113883.6.101',
+        isPrimary: true
+      }
+    ],
     isPrivate: null,
     geoPoint: {
       type: 'Point',
-      coordinates: [-121.448555,
-        38.552877]
+      coordinates: [-121.448555, 38.552877]
     },
     created: {
       date: '2017-04-18T14:44:24.984Z',
@@ -140,25 +143,28 @@ test('isLike: complex', t => {
         extension: '3375456619'
       },
       name: 'REGENTS OF THE UNIV OF CA',
-      identifiers: [{
-        authority: 'pac',
-        oid: 'pac',
-        extension: '3375456619'
-      }]
+      identifiers: [
+        {
+          authority: 'pac',
+          oid: 'pac',
+          extension: '3375456619'
+        }
+      ]
     },
-    specialties: [{
-      _id: '58f0eb1cd55e34a3cf221fae',
-      code: '1223X0400X',
-      grouping: 'DENTAL PROVIDERS',
-      classification: 'DENTIST',
-      specialization: 'ORTHODONTICS AND DENTOFACIAL ORTHOPEDICS',
-      system: '2.16.840.1.113883.6.101',
-      isPrimary: true
-    }],
+    specialties: [
+      {
+        _id: '58f0eb1cd55e34a3cf221fae',
+        code: '1223X0400X',
+        grouping: 'DENTAL PROVIDERS',
+        classification: 'DENTIST',
+        specialization: 'ORTHODONTICS AND DENTOFACIAL ORTHOPEDICS',
+        system: '2.16.840.1.113883.6.101',
+        isPrimary: true
+      }
+    ],
     geoPoint: {
       type: 'Point',
-      coordinates: [-121.448555,
-        38.552877]
+      coordinates: [-121.448555, 38.552877]
     },
     foobar: undefined
   }

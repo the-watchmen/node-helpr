@@ -1,5 +1,4 @@
 import test from 'ava'
-import _ from 'lodash'
 import {combine} from '../../src'
 
 function plus(a, b) {

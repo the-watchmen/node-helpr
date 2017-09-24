@@ -11,6 +11,7 @@ export * from './indices'
 export * from './args'
 export * from './is-like'
 export * from './cache-manager'
+export * from './constants'
 
 const zip5Regex = /^\d{5}$/
 const zipRegex = /^\d{5}(\d{4})?$/
@@ -35,7 +36,7 @@ export function isZip(s) {
 }
 
 export function isNumber(val) {
-  return (val === 0) || (!isEmpty(val) && !isNaN(val))
+  return val === 0 || (!isEmpty(val) && !isNaN(val))
 }
 
 export function isFloat(val) {
@@ -51,7 +52,7 @@ export function containsChar(val, char) {
 }
 
 export function isEmpty(val) {
-  return !isSpecified(val) || (val.toString().trim().length === 0)
+  return !isSpecified(val) || val.toString().trim().length === 0
 }
 
 export function isBoolean(val) {
@@ -96,9 +97,9 @@ export function getKeyArray(...fields) {
 }
 
 export function sleep(s) {
-  const e = new Date().getTime() + (s)
+  const e = new Date().getTime() + s
   while (new Date().getTime() <= e) {
-    ; // eslint-disable-line no-extra-semi
+    // eslint-disable-line no-extra-semi
   }
 }
 
@@ -107,20 +108,17 @@ export function getType(value) {
 }
 
 export function getWithTypes(o) {
-  return _.transform(
-    o,
-    (result, value, key) => {
-      result[key] = {
-        value,
-        type: getType(value)
-      }
+  return _.transform(o, (result, value, key) => {
+    result[key] = {
+      value,
+      type: getType(value)
     }
-  )
+  })
 }
 
 // http://stackoverflow.com/a/4540443/2371903
 export function xor(a, b) {
-  return (!a !== !b)
+  return !a !== !b
 }
 
 export function compress(s, {compression = COMPRESSION} = {}) {
@@ -138,7 +136,7 @@ export function join(args, {separator = '.'} = {}) {
 export function transformField({target, field, transformer}) {
   assert(transformer, 'transformer required')
   const value = transformer(_.get(target, field))
-  return (!value || _.isEmpty(value)) ? _.omit(target, field) : _.set(target, field, value)
+  return !value || _.isEmpty(value) ? _.omit(target, field) : _.set(target, field, value)
 }
 
 export function debugElements({dbg, msg, o}) {
@@ -155,9 +153,12 @@ export async function resolveValues(o) {
 }
 
 export function isListed({list, key, value}) {
-  return list && _.some(list, (elt, index, list) => {
-    return (_.isString(elt) && (elt === key)) || (_.isFunction(elt) && elt({key, value, list}))
-  })
+  return (
+    list &&
+    _.some(list, (elt, index, list) => {
+      return (_.isString(elt) && elt === key) || (_.isFunction(elt) && elt({key, value, list}))
+    })
+  )
 }
 
 export function parseValue(value) {
@@ -203,18 +204,15 @@ export function deepClean(object, predicate = _.identity) {
     result = _.filter(_.map(object, _value => deepClean(_value, predicate)))
   } else if (_.isPlainObject(object)) {
     // dbg('deep-clean: object=%o', object)
-    result = _.transform(
-      object,
-      (result, value, key) => {
-        const _result = deepClean(value, predicate)
-        if ((_.isArray(_result) || _.isPlainObject(_result)) && !_.isEmpty(_result)) {
-          result[key] = _result
-        } else if (_result) {
-          result[key] = _result
-        }
-        // dbg('deep-clean: key=%o, val=%o, result=%o', key, value, result)
+    result = _.transform(object, (result, value, key) => {
+      const _result = deepClean(value, predicate)
+      if ((_.isArray(_result) || _.isPlainObject(_result)) && !_.isEmpty(_result)) {
+        result[key] = _result
+      } else if (_result) {
+        result[key] = _result
       }
-    )
+      // dbg('deep-clean: key=%o, val=%o, result=%o', key, value, result)
+    })
   } else {
     // dbg('deep-clean: primitive=%o', object)
     return object
@@ -226,15 +224,12 @@ export function deepClean(object, predicate = _.identity) {
 
 export function splitAndTrim(s, {delimiter = ','} = {}) {
   if (_.isString(s)) {
-    const result = _.transform(
-      s.split(delimiter),
-      (_result, val) => {
-        const _val = val.trim()
-        if (_val) {
-          _result.push(_val)
-        }
+    const result = _.transform(s.split(delimiter), (_result, val) => {
+      const _val = val.trim()
+      if (_val) {
+        _result.push(_val)
       }
-    )
+    })
     return !_.isEmpty(result) && result
   }
 }
