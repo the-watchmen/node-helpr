@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/tony-kerz/node-helpr.git"
+    "url": "https://github.com/kerzcorp/node-helpr.git"
   },
   "scripts": {
     "ava": "cross-env DEBUG=test:*,app:* ava",
@@ -40,10 +40,7 @@
   },
   "ava": {
     "babel": "inherit",
-    "require": [
-      "babel-register",
-      "babel-polyfill"
-    ]
+    "require": ["babel-register", "babel-polyfill"]
   },
   "xo": {
     "useEslintrc": true
