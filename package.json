@@ -1,11 +1,11 @@
 {
-  "name": "helpr",
+  "name": "@watchmen/helpr",
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/kerzcorp/node-helpr.git"
+    "url": "https://github.com/the-watchmen/node-helpr.git"
   },
   "scripts": {
     "ava": "cross-env DEBUG=test:*,app:* ava",
@@ -40,12 +40,12 @@
   },
   "ava": {
     "babel": "inherit",
-    "require": [
-      "babel-register",
-      "babel-polyfill"
-    ]
+    "require": ["babel-register", "babel-polyfill"]
   },
   "xo": {
     "useEslintrc": true
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
