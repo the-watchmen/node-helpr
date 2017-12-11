@@ -1,6 +1,6 @@
 import test from 'ava'
 import debug from 'debug'
-import {chill} from 'test-helpr'
+import {chill} from '@watchmen/test-helpr'
 import {
   isZip5,
   isZip,

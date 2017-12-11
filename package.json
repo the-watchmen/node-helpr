@@ -28,6 +28,7 @@
     "minimist": "^1.2.0"
   },
   "devDependencies": {
+    "@watchmen/test-helpr": "^0.3.2",
     "ava": "^0.24.0",
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.6.1",
@@ -35,15 +36,11 @@
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-prettier": "^2.3.1",
     "prettier": "^1.9.1",
-    "test-helpr": "^0.3.2",
     "xo": "^0.18.2"
   },
   "ava": {
     "babel": "inherit",
-    "require": [
-      "babel-register",
-      "babel-polyfill"
-    ]
+    "require": ["babel-register", "babel-polyfill"]
   },
   "xo": {
     "useEslintrc": true

@@ -1,6 +1,6 @@
 import getCache from 'lru-cache'
 import debug from 'debug'
-import Timer from 'tymer'
+import Timer from '@watchmen/tymer'
 
 /* eslint-disable guard-for-in */
 
