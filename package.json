@@ -1,6 +1,6 @@
 {
   "name": "@watchmen/helpr",
-  "version": "1.0.6",
+  "version": "1.0.8",
   "description": "",
   "main": "dist/index.js",
   "repository": {
@@ -18,16 +18,17 @@
   "author": "tony kerz",
   "license": "ISC",
   "dependencies": {
+    "@watchmen/tymer": "^1.2.4",
     "config": "^1.28.1",
     "debug": "^3.1.0",
     "fast-safe-stringify": "^1.2.1",
     "jsondiffpatch": "^0.2.5",
     "lodash": "^4.17.4",
     "lru-cache": "^4.0.2",
-    "minimist": "^1.2.0",
-    "tymer": "^1.0.3"
+    "minimist": "^1.2.0"
   },
   "devDependencies": {
+    "@watchmen/test-helpr": "^0.3.2",
     "ava": "^0.24.0",
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.6.1",
@@ -35,7 +36,6 @@
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-prettier": "^2.3.1",
     "prettier": "^1.9.1",
-    "test-helpr": "^0.3.2",
     "xo": "^0.18.2"
   },
   "ava": {

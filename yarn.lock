@@ -44,6 +44,21 @@
   dependencies:
     arrify "^1.0.1"
 
+"@watchmen/test-helpr@^0.3.2":
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/@watchmen/test-helpr/-/test-helpr-0.3.4.tgz#98d913689c8d83b2b9dc7077d11e9c43d763b52d"
+  dependencies:
+    debug "^3.1.0"
+    fast-safe-stringify "^1.1.6"
+    jsondiffpatch "^0.2.4"
+    lodash "^4.17.4"
+
+"@watchmen/tymer@^1.2.4":
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/@watchmen/tymer/-/tymer-1.2.4.tgz#e28a829b8d71e06edfdd1a0d40d8e3fae1196efc"
+  dependencies:
+    debug "^3.1.0"
+
 abbrev@1:
   version "1.0.9"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.0.9.tgz#91b4792588a7738c25f35dd6f63752a2f8776135"
@@ -1551,7 +1566,7 @@ debug@^2.1.1, debug@^2.2.0:
   dependencies:
     ms "0.7.2"
 
-debug@^2.6.1, debug@^2.6.4, debug@^2.6.8:
+debug@^2.6.8:
   version "2.6.9"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.9.tgz#5d128515df134ff327e90a4c93f4e077a536341f"
   dependencies:
@@ -4037,15 +4052,6 @@ term-size@^1.2.0:
   dependencies:
     execa "^0.7.0"
 
-test-helpr@^0.3.2:
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/test-helpr/-/test-helpr-0.3.2.tgz#ce2cb89bc91ec428346a4d6d87a60bfebddab299"
-  dependencies:
-    debug "^2.6.1"
-    fast-safe-stringify "^1.1.6"
-    jsondiffpatch "^0.2.4"
-    lodash "^4.17.4"
-
 text-table@^0.2.0, text-table@~0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
@@ -4119,12 +4125,6 @@ tunnel-agent@~0.4.1:
 tweetnacl@^0.14.3, tweetnacl@~0.14.0:
   version "0.14.5"
   resolved "https://registry.yarnpkg.com/tweetnacl/-/tweetnacl-0.14.5.tgz#5ae68177f192d4456269d108afa93ff8743f4f64"
-
-tymer@^1.0.3:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/tymer/-/tymer-1.2.1.tgz#fb9cebd5c1cfec5a566e379a5af618b13356bc3c"
-  dependencies:
-    debug "^2.6.4"
 
 type-check@~0.3.2:
   version "0.3.2"

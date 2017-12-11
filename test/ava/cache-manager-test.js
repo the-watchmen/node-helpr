@@ -1,7 +1,7 @@
 import test from 'ava'
 import _ from 'lodash'
 import debug from 'debug'
-import {chill} from 'test-helpr'
+import {chill} from '@watchmen/test-helpr'
 import {getCacheManager} from '../../src'
 
 const dbg = debug('test:helpr:cache-manager')
