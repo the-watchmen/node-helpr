@@ -18,14 +18,14 @@
   "author": "tony kerz",
   "license": "ISC",
   "dependencies": {
+    "@watchmen/tymer": "^1.2.4",
     "config": "^1.28.1",
     "debug": "^3.1.0",
     "fast-safe-stringify": "^1.2.1",
     "jsondiffpatch": "^0.2.5",
     "lodash": "^4.17.4",
     "lru-cache": "^4.0.2",
-    "minimist": "^1.2.0",
-    "tymer": "^1.0.3"
+    "minimist": "^1.2.0"
   },
   "devDependencies": {
     "ava": "^0.24.0",
@@ -40,10 +40,7 @@
   },
   "ava": {
     "babel": "inherit",
-    "require": [
-      "babel-register",
-      "babel-polyfill"
-    ]
+    "require": ["babel-register", "babel-polyfill"]
   },
   "xo": {
     "useEslintrc": true
