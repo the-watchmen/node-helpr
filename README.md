@@ -11,12 +11,12 @@ miscellaneous helper functions
 
 ## usage
 
-1. `npm install helpr`
-1. `import {...} from 'helpr'`
+1. `yarn install {package name}`
+1. `import {...} from '{package name}'`
 
 ## development
 
-1. `git clone {this repo}`
-1. `cd {this repo name}`
-1. `npm install`
-1. `npm test`
+1. `git clone {repo name}`
+1. `cd {repo name}`
+1. `yarn`
+1. `yarn test`

@@ -1,5 +1,5 @@
 import zlib from 'zlib'
-import assert from 'assert'
+import _assert from 'assert'
 // import diff from 'jsondiffpatch'
 import {DiffPatcher} from 'jsondiffpatch/src/diffpatcher'
 import fastStringify from 'fast-safe-stringify'
@@ -236,4 +236,28 @@ export function splitAndTrim(s, {delimiter = ','} = {}) {
     })
     return !_.isEmpty(result) && result
   }
+}
+
+// [{a: 1, b: 2}, {b: 3, c: 4}] => {a: 1, b: 3, c: 4}
+export function merge(a) {
+  return _.transform(a, (result, elt) => Object.assign(result, elt), {})
+}
+
+// {a: {b: {c: 1}}} -> {'a.b.c': 1}
+export function toDotNotation({target, path = [], result = {}}) {
+  return _.reduce(
+    target,
+    (result, val, key) => {
+      if (_.isPlainObject(val)) {
+        return toDotNotation({target: val, path: path.concat([key]), result})
+      }
+      result[join(path.concat([key]))] = val
+      return result
+    },
+    result
+  )
+}
+
+export function assert(test, message) {
+  _assert(test, _.isFunction(message) ? message() : message)
 }

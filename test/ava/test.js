@@ -22,7 +22,9 @@ import {
   isListed,
   parseValue,
   isIsoDate,
-  splitAndTrim
+  splitAndTrim,
+  merge,
+  toDotNotation
 } from '../../src'
 
 const dbg = debug('test:helpr')
@@ -233,4 +235,12 @@ test('splitAndTrim', t => {
   t.falsy(splitAndTrim(null))
   t.falsy(splitAndTrim())
   t.falsy(splitAndTrim([]))
+})
+
+test('merge', t => {
+  t.deepEqual(merge([{a: 1, b: 2}, {b: 3, c: 4}]), {a: 1, b: 3, c: 4})
+})
+
+test('toDotNotation', t => {
+  t.deepEqual(toDotNotation({target: {a: {b: {c: 1}}}}), {'a.b.c': 1})
 })
