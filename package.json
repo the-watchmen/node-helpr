@@ -1,12 +1,9 @@
 {
   "name": "@watchmen/helpr",
-  "version": "1.0.8",
+  "version": "1.1.0",
   "description": "",
   "main": "dist/index.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/the-watchmen/node-helpr.git"
-  },
+  "repository": "the-watchmen/node-helpr",
   "scripts": {
     "ava": "cross-env DEBUG=test:*,app:* ava",
     "pretest": "xo",
@@ -35,7 +32,7 @@
     "cross-env": "^5.1.1",
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-prettier": "^2.3.1",
-    "prettier": "^1.9.1",
+    "prettier": "^1.9.2",
     "xo": "^0.18.2"
   },
   "ava": {
