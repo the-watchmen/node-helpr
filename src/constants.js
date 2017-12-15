@@ -59,3 +59,10 @@ export const US_STATES = {
   WI: 'Wisconsin',
   WY: 'Wyoming'
 }
+
+export const MODES = {
+  create: 'create',
+  update: 'update',
+  delete: 'delete',
+  upsert: 'upsert'
+}
