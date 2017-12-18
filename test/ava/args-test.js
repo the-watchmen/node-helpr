@@ -6,7 +6,7 @@ import {
   clearArgDefaults,
   getJsonArg,
   getRequiredArg
-} from '../../src'
+} from '../../src/args'
 
 test('setArgDefault', t => {
   const key = 'foo'
