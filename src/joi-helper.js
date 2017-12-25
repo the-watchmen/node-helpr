@@ -33,7 +33,7 @@ export function joiValidator({schema, createModifier} = {}) {
 export const identified = joi.object({
   _id: joi
     .string()
-    .meta({generated: true})
+    .meta({isGenerated: true})
     .label('id')
 })
 
