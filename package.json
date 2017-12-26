@@ -1,6 +1,6 @@
 {
   "name": "@watchmen/helpr",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "description": "",
   "main": "dist/index.js",
   "repository": "the-watchmen/node-helpr",
