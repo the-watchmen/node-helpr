@@ -14,7 +14,6 @@ const diff = new DiffPatcher()
 export * from './indices'
 export * from './is-like'
 export * from './constants'
-export * from './debug'
 
 const zip5Regex = /^\d{5}$/
 const zipRegex = /^\d{5}(\d{4})?$/
