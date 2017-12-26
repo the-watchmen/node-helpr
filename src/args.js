@@ -4,7 +4,7 @@ import _ from 'lodash'
 import minimist from 'minimist'
 import config from 'config'
 
-const dbg = debug('app:helpr:args')
+const dbg = debug('lib:helpr:args')
 const defaultPrefix = '__default__'
 const argv = minimist(process.argv.slice(2))
 
