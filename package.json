@@ -1,11 +1,11 @@
 {
   "name": "@watchmen/helpr",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "description": "",
   "main": "dist/index.js",
   "repository": "the-watchmen/node-helpr",
   "scripts": {
-    "ava": "cross-env DEBUG=test:*,app:* ava",
+    "ava": "cross-env DEBUG=test:*,app:*,dbg:* ava",
     "pretest": "xo",
     "test": "npm run ava",
     "prebuild": "npm run test",
@@ -19,6 +19,7 @@
     "@watchmen/tymer": "^1.2.4",
     "debug": "^3.1.0",
     "fast-safe-stringify": "^1.2.1",
+    "find-root": "^1.1.0",
     "jsondiffpatch": "^0.2.5",
     "lodash": ">=4"
   },
