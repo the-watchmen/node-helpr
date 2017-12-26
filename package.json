@@ -19,7 +19,6 @@
     "@watchmen/tymer": "^1.2.4",
     "debug": "^3.1.0",
     "fast-safe-stringify": "^1.2.1",
-    "find-root": "^1.1.0",
     "jsondiffpatch": "^0.2.5",
     "lodash": ">=4"
   },
@@ -27,7 +26,8 @@
     "config": ">=1.28",
     "joi": ">=13",
     "lru-cache": ">=4",
-    "minimist": ">=1.2"
+    "minimist": ">=1.2",
+    "find-root": ">=1.1"
   },
   "devDependencies": {
     "@team-griffin/install-self-peers": ">=1",
@@ -45,10 +45,7 @@
   },
   "ava": {
     "babel": "inherit",
-    "require": [
-      "babel-register",
-      "babel-polyfill"
-    ]
+    "require": ["babel-register", "babel-polyfill"]
   },
   "xo": {
     "useEslintrc": true
