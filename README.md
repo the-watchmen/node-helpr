@@ -19,6 +19,7 @@ miscellaneous helper functions
 1. `args`
 1. `cache-manager`
 1. `joi-helper`
+1. `debug`
 
 > * imported like: `import {...} from '<package name>/dist/<file name>'`
 > * certain components are made opt-in to avoid dependency bloat when not being used
