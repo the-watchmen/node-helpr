@@ -1,6 +1,6 @@
 {
   "name": "@watchmen/helpr",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "description": "",
   "main": "dist/index.js",
   "repository": "the-watchmen/node-helpr",
@@ -45,7 +45,10 @@
   },
   "ava": {
     "babel": "inherit",
-    "require": ["babel-register", "babel-polyfill"]
+    "require": [
+      "babel-register",
+      "babel-polyfill"
+    ]
   },
   "xo": {
     "useEslintrc": true
