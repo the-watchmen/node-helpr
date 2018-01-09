@@ -259,3 +259,9 @@ export function toDotNotation({target, path = [], result = {}}) {
 export function assert(test, message) {
   _assert(test, _.isFunction(message) ? message() : message)
 }
+
+export function getRequired({data, field}) {
+  const value = _.get(data, field)
+  assert(value, () => `unable to get field=${field} from data=${stringify(data)}`)
+  return value
+}
