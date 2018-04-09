@@ -1,8 +1,8 @@
 import assert from 'assert'
+import config from 'config'
 import debug from 'debug'
 import _ from 'lodash'
 import minimist from 'minimist'
-import config from 'config'
 
 const dbg = debug('lib:helpr:args')
 const defaultPrefix = '__default__'

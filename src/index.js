@@ -1,7 +1,7 @@
 import zlib from 'zlib'
 import _assert from 'assert'
-// import diff from 'jsondiffpatch'
-import {DiffPatcher} from 'jsondiffpatch/src/diffpatcher'
+import diff from 'jsondiffpatch'
+// import {DiffPatcher} from 'jsondiffpatch/src/diffpatcher'
 import fastStringify from 'fast-safe-stringify'
 import _ from 'lodash'
 // import debug from 'debug'
@@ -9,7 +9,7 @@ import _ from 'lodash'
 // const dbg = debug('app:helpr')
 
 // https://github.com/benjamine/jsondiffpatch/issues/76#issuecomment-270207970
-const diff = new DiffPatcher()
+// const diff = new DiffPatcher()
 
 export * from './indices'
 export * from './is-like'
