@@ -24,7 +24,8 @@ import {
   isIsoDate,
   splitAndTrim,
   merge,
-  toDotNotation
+  toDotNotation,
+  diffConsole
 } from '../../src'
 
 const dbg = debug('test:helpr')
@@ -243,4 +244,9 @@ test('merge', t => {
 
 test('toDotNotation', t => {
   t.deepEqual(toDotNotation({target: {a: {b: {c: 1}}}}), {'a.b.c': 1})
+})
+
+test('diffConsole', t => {
+  diffConsole({expected: {foo: 'bar'}, actual: {foo: 'baz'}})
+  t.pass()
 })
