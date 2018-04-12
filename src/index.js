@@ -2,14 +2,18 @@ import zlib from 'zlib'
 import _assert from 'assert'
 import fastStringify from 'fast-safe-stringify'
 import _ from 'lodash'
-// import debug from 'debug'
+import debug from 'debug'
+import {diff, formatters} from 'jsondiffpatch'
+
+const dbg = debug('app:helpr')
+
+dbg('diff=%o, formatters=%o', diff, formatters)
+// const jdpi = jdp.create()
 
 // https://github.com/benjamine/jsondiffpatch/issues/106#issuecomment-141161972
-var jdp = require('jsondiffpatch')
+// var jdp = require('jsondiffpatch')
 
-var jdpi = jdp.create()
-
-// const dbg = debug('app:helpr')
+// var jdpi = jdp.create()
 
 export * from './indices'
 export * from './is-like'
@@ -74,10 +78,10 @@ export function pretty(val) {
 }
 
 export function diffConsole({actual, expected}) {
-  const delta = jdpi.diff(actual, expected)
+  const delta = diff(actual, expected)
   // eslint-disable-next-line no-console
   console.log('diff output:')
-  jdp.console.log(delta)
+  formatters.console.log(delta)
 }
 
 export function stringify(s) {
