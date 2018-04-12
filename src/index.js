@@ -3,11 +3,7 @@ import _assert from 'assert'
 import fastStringify from 'fast-safe-stringify'
 import _ from 'lodash'
 // import debug from 'debug'
-
-// https://github.com/benjamine/jsondiffpatch/issues/106#issuecomment-141161972
-var jdp = require('jsondiffpatch')
-
-var jdpi = jdp.create()
+import {diff, formatters} from 'jsondiffpatch'
 
 // const dbg = debug('app:helpr')
 
@@ -74,10 +70,10 @@ export function pretty(val) {
 }
 
 export function diffConsole({actual, expected}) {
-  const delta = jdpi.diff(actual, expected)
+  const delta = diff(actual, expected)
   // eslint-disable-next-line no-console
   console.log('diff output:')
-  jdp.console.log(delta)
+  formatters.console.log(delta)
 }
 
 export function stringify(s) {
