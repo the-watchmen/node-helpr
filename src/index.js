@@ -2,18 +2,10 @@ import zlib from 'zlib'
 import _assert from 'assert'
 import fastStringify from 'fast-safe-stringify'
 import _ from 'lodash'
-import debug from 'debug'
+// import debug from 'debug'
 import {diff, formatters} from 'jsondiffpatch'
 
-const dbg = debug('app:helpr')
-
-dbg('diff=%o, formatters=%o', diff, formatters)
-// const jdpi = jdp.create()
-
-// https://github.com/benjamine/jsondiffpatch/issues/106#issuecomment-141161972
-// var jdp = require('jsondiffpatch')
-
-// var jdpi = jdp.create()
+// const dbg = debug('app:helpr')
 
 export * from './indices'
 export * from './is-like'
