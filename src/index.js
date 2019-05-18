@@ -22,242 +22,254 @@ export const VALIDATION_ERROR = 'ValidationError'
 export const UNIQUENESS_ERROR = 'UniquenessError'
 
 export function isHex(s) {
-  return hexRegex.test(s)
+	return hexRegex.test(s)
 }
 
 export function isZip5(s) {
-  return zip5Regex.test(s)
+	return zip5Regex.test(s)
 }
 
 export function isZip(s) {
-  return zipRegex.test(s)
+	return zipRegex.test(s)
 }
 
 export function isNumber(val) {
-  return val === 0 || (!isEmpty(val) && !isNaN(val))
+	return val === 0 || (!isEmpty(val) && !isNaN(val))
 }
 
 export function isFloat(val) {
-  return isNumber(val) && containsChar(val, '.')
+	return isNumber(val) && containsChar(val, '.')
 }
 
 export function isIsoDate(value) {
-  return isoDateRegex.test(value)
+	return isoDateRegex.test(value)
 }
 
 export function containsChar(val, char) {
-  return isSpecified(val) && val.toString().indexOf(char) !== -1
+	return isSpecified(val) && val.toString().indexOf(char) !== -1
 }
 
 export function isEmpty(val) {
-  return !isSpecified(val) || val.toString().trim().length === 0
+	return !isSpecified(val) || val.toString().trim().length === 0
 }
 
 export function isBoolean(val) {
-  return isSpecified(val) && ['true', 'false'].includes(val.toString())
+	return isSpecified(val) && ['true', 'false'].includes(val.toString())
 }
 
 export function parseBoolean(val) {
-  return isSpecified(val) && ['true'].includes(val.toString())
+	return isSpecified(val) && ['true'].includes(val.toString())
 }
 
 export function isSpecified(val) {
-  return ![null, undefined].includes(val)
+	return ![null, undefined].includes(val)
 }
 
 export function pretty(val) {
-  return JSON.stringify(val, null, 2)
+	return JSON.stringify(val, null, 2)
 }
 
 export function diffConsole({actual, expected}) {
-  const delta = diff(actual, expected)
-  // eslint-disable-next-line no-console
-  console.log('diff output:')
-  formatters.console.log(delta)
+	const delta = diff(actual, expected)
+	console.log('diff output:')
+	formatters.console.log(delta)
 }
 
 export function stringify(s) {
-  return fastStringify(s)
+	return fastStringify(s)
 }
 
 export function getKey(...fields) {
-  return getKeyArray(...fields).join('')
+	return getKeyArray(...fields).join('')
 }
 
 export function getKeyArray(...fields) {
-  return _.reduce(
-    _.flatten(fields),
-    (result, value) => {
-      return result ? result.concat(_.flatten([SEPARATOR, value])) : _.flatten([value])
-    },
-    null
-  )
+	return _.reduce(
+		_.flatten(fields),
+		(result, value) => {
+			return result ? result.concat(_.flatten([SEPARATOR, value])) : _.flatten([value])
+		},
+		null
+	)
 }
 
 export function sleep(s) {
-  const e = new Date().getTime() + s
-  while (new Date().getTime() <= e) {
-    // eslint-disable-line no-extra-semi
-  }
+	const e = new Date().getTime() + s
+	while (new Date().getTime() <= e) {
+		/* */
+	}
 }
 
 export function getType(value) {
-  return value && value.constructor.name
+	return value && value.constructor.name
 }
 
 export function getWithTypes(o) {
-  return _.transform(o, (result, value, key) => {
-    result[key] = {
-      value,
-      type: getType(value)
-    }
-  })
+	return _.transform(o, (result, value, key) => {
+		result[key] = {
+			value,
+			type: getType(value)
+		}
+	})
 }
 
 // http://stackoverflow.com/a/4540443/2371903
 export function xor(a, b) {
-  return !a !== !b
+	return !a !== !b
 }
 
 export function compress(s, {compression = COMPRESSION} = {}) {
-  return zlib.deflateSync(s).toString(compression)
+	return zlib.deflateSync(s).toString(compression)
 }
 
 export function decompress(s, {compression = COMPRESSION} = {}) {
-  return zlib.inflateSync(Buffer.from(s, compression)).toString()
+	return zlib.inflateSync(Buffer.from(s, compression)).toString()
 }
 
 export function join(args, {separator = '.'} = {}) {
-  return args ? _.pullAll(args, [null, undefined, '']).join(separator) : args
+	return args ? _.pullAll(args, [null, undefined, '']).join(separator) : args
 }
 
 export function transformField({target, field, transformer}) {
-  assert(transformer, 'transformer required')
-  const value = transformer(_.get(target, field))
-  return !value || _.isEmpty(value) ? _.omit(target, field) : _.set(target, field, value)
+	assert(transformer, 'transformer required')
+	const value = transformer(_.get(target, field))
+	return !value || _.isEmpty(value) ? _.omit(target, field) : _.set(target, field, value)
 }
 
 export function debugElements({dbg, msg, o}) {
-  _.each(o, (val, key) => dbg(`${msg}[${key}]=${stringify(val)}`))
+	_.each(o, (val, key) => dbg(`${msg}[${key}]=${stringify(val)}`))
 }
 
 export async function resolveValues(o) {
-  const map = new Map()
-  _.each(o, (val, key) => {
-    map.set(key, val)
-  })
-  const resolved = await Promise.all(map.values())
-  return _.zipObject(Array.from(map.keys()), resolved)
+	const map = new Map()
+	_.each(o, (val, key) => {
+		map.set(key, val)
+	})
+	const resolved = await Promise.all(map.values())
+	return _.zipObject([...map.keys()], resolved)
 }
 
 export function isListed({list, key, value}) {
-  return (
-    list &&
-    _.some(list, (elt, index, list) => {
-      return (_.isString(elt) && elt === key) || (_.isFunction(elt) && elt({key, value, list}))
-    })
-  )
+	return (
+		list &&
+		_.some(list, (elt, index, list) => {
+			return (_.isString(elt) && elt === key) || (_.isFunction(elt) && elt({key, value, list}))
+		})
+	)
 }
 
 export function parseValue(value) {
-  if (value === 'null') {
-    return null
-  } else if (isBoolean(value)) {
-    return parseBoolean(value)
-  } else if (isFloat(value)) {
-    return parseFloat(value)
-  } else if (isNumber(value)) {
-    return parseInt(value, 10)
-  } else if (isIsoDate(value)) {
-    return Date.parse(value)
-  } else if (Array.isArray(value)) {
-    return value.map(parseValue)
-  }
-  return value
+	if (value === 'null') {
+		return null
+	}
+
+	if (isBoolean(value)) {
+		return parseBoolean(value)
+	}
+
+	if (isFloat(value)) {
+		return parseFloat(value)
+	}
+
+	if (isNumber(value)) {
+		return parseInt(value, 10)
+	}
+
+	if (isIsoDate(value)) {
+		return Date.parse(value)
+	}
+
+	if (Array.isArray(value)) {
+		return value.map(parseValue)
+	}
+
+	return value
 }
 
 export function combine({target = {}, source = {}, operator = _.identity, union}) {
-  const result = _.transform(target, (result, val, key) => {
-    if (_.has(source, key)) {
-      result[key] = operator(val, source[key])
-    } else {
-      result[key] = val
-    }
-  })
-  if (union) {
-    _.each(source, (val, key) => {
-      if (!_.has(result, key)) {
-        result[key] = val
-      }
-    })
-  }
-  return result
+	const result = _.transform(target, (result, val, key) => {
+		if (_.has(source, key)) {
+			result[key] = operator(val, source[key])
+		} else {
+			result[key] = val
+		}
+	})
+	if (union) {
+		_.each(source, (val, key) => {
+			if (!_.has(result, key)) {
+				result[key] = val
+			}
+		})
+	}
+
+	return result
 }
 
 export function deepClean(object, predicate = _.identity) {
-  // dbg('deep-clean: object=%o, type=%o', object, getType(object))
-  let result
-  if (Array.isArray(object)) {
-    // dbg('deep-clean: array=%o', object)
-    result = _.filter(_.map(object, _value => deepClean(_value, predicate)))
-  } else if (_.isPlainObject(object)) {
-    // dbg('deep-clean: object=%o', object)
-    result = _.transform(object, (result, value, key) => {
-      const _result = deepClean(value, predicate)
-      if ((_.isArray(_result) || _.isPlainObject(_result)) && !_.isEmpty(_result)) {
-        result[key] = _result
-      } else if (_result) {
-        result[key] = _result
-      }
-      // dbg('deep-clean: key=%o, val=%o, result=%o', key, value, result)
-    })
-  } else {
-    // dbg('deep-clean: primitive=%o', object)
-    return object
-  }
+	// dbg('deep-clean: object=%o, type=%o', object, getType(object))
+	let result
+	if (Array.isArray(object)) {
+		// dbg('deep-clean: array=%o', object)
+		result = _.filter(_.map(object, _value => deepClean(_value, predicate)))
+	} else if (_.isPlainObject(object)) {
+		// dbg('deep-clean: object=%o', object)
+		result = _.transform(object, (result, value, key) => {
+			const _result = deepClean(value, predicate)
+			if ((_.isArray(_result) || _.isPlainObject(_result)) && !_.isEmpty(_result)) {
+				result[key] = _result
+			} else if (_result) {
+				result[key] = _result
+			}
+			// dbg('deep-clean: key=%o, val=%o, result=%o', key, value, result)
+		})
+	} else {
+		// dbg('deep-clean: primitive=%o', object)
+		return object
+	}
 
-  // dbg('result=%o', result)
-  return _.isEmpty(result) ? null : result
+	// dbg('result=%o', result)
+	return _.isEmpty(result) ? null : result
 }
 
 export function splitAndTrim(s, {delimiter = ','} = {}) {
-  if (_.isString(s)) {
-    const result = _.transform(s.split(delimiter), (_result, val) => {
-      const _val = val.trim()
-      if (_val) {
-        _result.push(_val)
-      }
-    })
-    return !_.isEmpty(result) && result
-  }
+	if (_.isString(s)) {
+		const result = _.transform(s.split(delimiter), (_result, val) => {
+			const _val = val.trim()
+			if (_val) {
+				_result.push(_val)
+			}
+		})
+		return !_.isEmpty(result) && result
+	}
 }
 
 // [{a: 1, b: 2}, {b: 3, c: 4}] => {a: 1, b: 3, c: 4}
 export function merge(a) {
-  return _.transform(a, (result, elt) => Object.assign(result, elt), {})
+	return _.transform(a, (result, elt) => Object.assign(result, elt), {})
 }
 
 // {a: {b: {c: 1}}} -> {'a.b.c': 1}
 export function toDotNotation({target, path = [], result = {}}) {
-  return _.reduce(
-    target,
-    (result, val, key) => {
-      if (_.isPlainObject(val)) {
-        return toDotNotation({target: val, path: path.concat([key]), result})
-      }
-      result[join(path.concat([key]))] = val
-      return result
-    },
-    result
-  )
+	return _.reduce(
+		target,
+		(result, val, key) => {
+			if (_.isPlainObject(val)) {
+				return toDotNotation({target: val, path: path.concat([key]), result})
+			}
+
+			result[join(path.concat([key]))] = val
+			return result
+		},
+		result
+	)
 }
 
 export function assert(test, message) {
-  _assert(test, _.isFunction(message) ? message() : message)
+	_assert(test, _.isFunction(message) ? message() : message)
 }
 
 export function getRequired({data, field}) {
-  const value = _.get(data, field)
-  assert(value, () => `unable to get field=${field} from data=${stringify(data)}`)
-  return value
+	const value = _.get(data, field)
+	assert(value, () => `unable to get field=${field} from data=${stringify(data)}`)
+	return value
 }

@@ -8,20 +8,21 @@ const {create, upsert} = MODES
 const dbg = debug('lib:helpr')
 
 export function joiAssert({data, schema}) {
-  const result = joi.validate(data, schema)
-  if (result.error) {
-    throw result.error
-  }
-  return true
+	const result = joi.validate(data, schema)
+	if (result.error) {
+		throw result.error
+	}
+
+	return true
 }
 
 export function joiValidator({schema, createModifier} = {}) {
-  return function({mode, data}) {
-    dbg('joi-validator: mode=%o, data=%o', mode, stringify(data))
-    return [create, upsert].includes(mode)
-      ? joiAssert({data, schema: createModifier ? createModifier(schema) : schema})
-      : joiAssert({data, schema})
-  }
+	return function({mode, data}) {
+		dbg('joi-validator: mode=%o, data=%o', mode, stringify(data))
+		return [create, upsert].includes(mode)
+			? joiAssert({data, schema: createModifier ? createModifier(schema) : schema})
+			: joiAssert({data, schema})
+	}
 }
 
 //
@@ -31,19 +32,19 @@ export function joiValidator({schema, createModifier} = {}) {
 // so currently need to clone out in consuming project
 //
 export const identified = joi.object({
-  _id: joi
-    .string()
-    .meta({isGenerated: true})
-    .label('id')
+	_id: joi
+		.string()
+		.meta({isGenerated: true})
+		.label('id')
 })
 
 export function discriminated({name, value, label, altName} = {}) {
-  assert(name && value && label, 'name, value and label required')
-  return joi.object({
-    [name]: joi
-      .string()
-      .valid(value)
-      .label(label)
-      .meta({isDiscriminator: true, label: altName || name})
-  })
+	assert(name && value && label, 'name, value and label required')
+	return joi.object({
+		[name]: joi
+			.string()
+			.valid(value)
+			.label(label)
+			.meta({isDiscriminator: true, label: altName || name})
+	})
 }
