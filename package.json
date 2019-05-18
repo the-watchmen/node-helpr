@@ -1,14 +1,14 @@
 {
   "name": "@watchmen/helpr",
-  "version": "2.3.5",
+  "version": "2.3.6",
   "description": "",
   "main": "dist/index.js",
   "repository": "the-watchmen/node-helpr",
   "scripts": {
-    "ava": "cross-env DEBUG=test:*,app:*,dbg:* ava",
+    "ava": "cross-env DEBUG=dbg:*,test:*,app:*,lib:* ava",
     "pretest": "xo",
-    "test": "npm run ava",
-    "prebuild": "npm run test",
+    "test": "yarn ava test/ava",
+    "prebuild": "yarn test",
     "build": "babel ./src -d ./dist",
     "fix": "xo --fix",
     "prepare": "install-self-peers -- --ignore-scripts"
@@ -17,10 +17,10 @@
   "license": "ISC",
   "dependencies": {
     "@watchmen/tymer": "1.2.4",
-    "debug": "3.1.0",
-    "fast-safe-stringify": "2.0.3",
-    "jsondiffpatch": "0.3.9",
-    "lodash": "4.17.5"
+    "debug": "^4.1.1",
+    "fast-safe-stringify": "2.0.6",
+    "jsondiffpatch": "0.3.11",
+    "lodash": "4.17.11"
   },
   "peerDependencies": {
     "config": ">=1.28",
@@ -30,28 +30,34 @@
     "minimist": ">=1.2"
   },
   "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.4",
+    "@babel/polyfill": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
+    "@babel/register": "^7.4.4",
     "@team-griffin/install-self-peers": ">=1",
     "@watchmen/test-helpr": "0.3.4",
-    "ava": "0.25.0",
-    "babel-cli": "6.26.0",
-    "babel-eslint": "8.2.2",
-    "babel-preset-env": "1.6.1",
-    "babel-preset-stage-0": ">=6.24",
-    "cross-env": "5.1.4",
-    "eslint-config-prettier": "2.9.0",
-    "eslint-plugin-prettier": "2.6.0",
-    "prettier": "1.11.1",
-    "xo": "0.20.3"
-  },
-  "ava": {
-    "babel": "inherit",
-    "require": [
-      "babel-register",
-      "babel-polyfill"
-    ]
+    "ava": "1.4.1",
+    "cross-env": "5.2.0",
+    "prettier": "1.17.1",
+    "xo": "0.24.0"
   },
   "xo": {
-    "useEslintrc": true
+    "prettier": true,
+    "rules": {
+      "eslint-comments/disable-enable-pair": 0,
+      "import/no-unassigned-import": 0,
+      "import/prefer-default-export": 0,
+      "capitalized-comments": 0,
+      "new-cap": 0,
+      "radix": 0
+    }
+  },
+  "ava": {
+    "require": [
+      "@babel/register",
+      "@babel/polyfill"
+    ]
   },
   "publishConfig": {
     "access": "public"
