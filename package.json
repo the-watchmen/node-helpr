@@ -1,65 +1,35 @@
 {
   "name": "@watchmen/helpr",
   "version": "2.3.8",
-  "description": "",
-  "main": "dist/index.js",
+  "description": "misc helper functions",
+  "exports": "./src/index.js",
   "repository": "the-watchmen/node-helpr",
+  "type": "module",
   "scripts": {
-    "ava": "cross-env DEBUG=dbg:*,test:*,app:*,lib:* ava",
     "pretest": "xo",
-    "test": "yarn ava test/ava",
-    "prebuild": "yarn test",
-    "build": "babel ./src -d ./dist",
-    "fix": "xo --fix",
-    "prepare": "install-self-peers -- --ignore-scripts"
+    "ava": "DEBUG=dbg:* ava",
+    "test": "npm run ava"
   },
   "author": "tony kerz",
   "license": "ISC",
   "dependencies": {
-    "@watchmen/tymer": "1.2.7",
-    "debug": "^4.1.1",
-    "fast-safe-stringify": "2.0.6",
-    "jsondiffpatch": "0.3.11",
-    "lodash": "4.17.11"
+    "@watchmen/debug": "^2.0.7",
+    "@watchmen/tymer": "2.0.13",
+    "fast-safe-stringify": "2.1.1",
+    "jsondiffpatch": "0.6.0",
+    "lodash": "4.17.21"
   },
   "peerDependencies": {
     "config": ">=1.28",
     "find-root": ">=1.1",
     "joi": ">=13",
-    "lru-cache": ">=4",
+    "lru-cache": ">=11",
     "minimist": ">=1.2"
   },
   "devDependencies": {
-    "@babel/cli": "^7.4.4",
-    "@babel/core": "^7.4.4",
-    "@babel/polyfill": "^7.4.4",
-    "@babel/preset-env": "^7.4.4",
-    "@babel/register": "^7.4.4",
-    "@team-griffin/install-self-peers": ">=1",
-    "@watchmen/test-helpr": "0.3.4",
-    "ava": "1.4.1",
-    "cross-env": "5.2.0",
-    "prettier": "1.17.1",
-    "xo": "0.24.0"
-  },
-  "xo": {
-    "prettier": true,
-    "rules": {
-      "eslint-comments/disable-enable-pair": 0,
-      "import/no-unassigned-import": 0,
-      "import/prefer-default-export": 0,
-      "capitalized-comments": 0,
-      "new-cap": 0,
-      "radix": 0
-    }
-  },
-  "ava": {
-    "require": [
-      "@babel/register",
-      "@babel/polyfill"
-    ]
-  },
-  "publishConfig": {
-    "access": "public"
+    "@watchmen/test-helpr": "1.0.4",
+    "ava": "6.2.0",
+    "prettier": "3.4.2",
+    "xo": "0.60.0"
   }
 }

@@ -1,109 +1,109 @@
-import LRU from 'lru-cache'
-import debug from 'debug'
+import {LRUCache} from 'lru-cache'
+import debug from '@watchmen/debug'
 import Timer from '@watchmen/tymer'
 
 /* eslint-disable guard-for-in, no-await-in-loop, no-unused-expressions */
 
-const dbg = debug('app:helpr:cache-manager')
+const dbg = debug(import.meta.url)
 
-export async function getCacheManager(opts) {
-	const cacheManager = {}
-	for (const key in opts) {
-		cacheManager[key] = await _createCache({key, opts: opts[key]})
-	}
+export async function getCacheManager(options) {
+  const cacheManager = {}
+  for (const key in options) {
+    cacheManager[key] = await _createCache({key, opts: options[key]})
+  }
 
-	return {
-		createCache: async ({key, opts}) => {
-			cacheManager[key] = await _createCache({key, opts})
-		},
-		get: key => cacheManager[key],
-		reset: async () => {
-			for (const key in cacheManager) {
-				cacheManager[key] && (await cacheManager[key].reset())
-			}
-		},
-		cleanup: async () => {
-			for (const key in cacheManager) {
-				cacheManager[key] && (await cacheManager[key].cleanup())
-			}
-		}
-	}
+  return {
+    async createCache({key, opts}) {
+      cacheManager[key] = await _createCache({key, opts})
+    },
+    get: (key) => cacheManager[key],
+    async reset() {
+      for (const key in cacheManager) {
+        cacheManager[key] && (await cacheManager[key].reset())
+      }
+    },
+    async cleanup() {
+      for (const key in cacheManager) {
+        cacheManager[key] && (await cacheManager[key].cleanup())
+      }
+    },
+  }
 }
 
-async function _createCache({key, opts = {}}) {
-	dbg('init: key=%o, opts=%j', key, opts)
-	let hits = 0
-	let misses = 0
-	let missing = 0
-	const evictPromises = []
-	const timer = new Timer(`${key}-get`)
+async function _createCache({key, opts: options = {}}) {
+  dbg('init: key=%o, opts=%j', key, options)
+  let hits = 0
+  let misses = 0
+  let missing = 0
+  const evictPromises = []
+  const timer = new Timer(`${key}-get`)
 
-	if (opts.onEvict) {
-		opts.dispose = (key, value) => {
-			dbg('dispose: key=%o, value=%j', key, value)
-			evictPromises.push(opts.onEvict({key, value}))
-		}
-	}
+  if (options.onEvict) {
+    options.dispose = (value, key) => {
+      dbg('dispose: key=%o, value=%o', key, value)
+      evictPromises.push(options.onEvict({key, value}))
+    }
+  }
 
-	const cache = opts.max && new LRU(opts)
-	opts.max && opts.init && (await opts.init(cache))
+  const cache = options.max && new LRUCache(options)
+  options.max && options.init && (await options.init(cache))
 
-	async function insureEvictions() {
-		evictPromises.length && (await Promise.all(evictPromises))
-		evictPromises.length = 0
-	}
+  async function insureEvictions() {
+    evictPromises.length && (await Promise.all(evictPromises))
+    evictPromises.length = 0
+  }
 
-	async function cleanup() {
-		cache.reset()
-		return insureEvictions()
-	}
+  async function cleanup() {
+    cache.clear()
+    return insureEvictions()
+  }
 
-	return (
-		cache && {
-			name: () => key,
-			stats: () => {
-				return {key, hits, misses, missing, items: cache.itemCount}
-			},
-			get: async key => {
-				let val = cache.get(key)
-				if (val) {
-					hits++
-				} else {
-					misses++
-					if (opts.get) {
-						timer.start()
-						val = await opts.get(key)
-						timer.stop()
-					}
+  return (
+    cache && {
+      name: () => key,
+      stats() {
+        return {key, hits, misses, missing, items: cache.size}
+      },
+      async get(key) {
+        let value = cache.get(key)
+        if (value) {
+          hits++
+        } else {
+          misses++
+          if (options.get) {
+            timer.start()
+            value = await options.get(key)
+            timer.stop()
+          }
 
-					if (val) {
-						cache.set(key, val)
-					} else {
-						missing++
-					}
-				}
+          if (value) {
+            cache.set(key, value)
+          } else {
+            missing++
+          }
+        }
 
-				return val
-			},
-			set: async ({key, value}) => {
-				const result = cache.set(key, value)
-				await insureEvictions()
-				return result
-			},
-			has: key => cache.has(key),
-			del: async key => {
-				const result = cache.del(key)
-				await insureEvictions()
-				return result
-			},
-			reset: async () => {
-				await cleanup()
-				return opts.init && opts.init(cache)
-			},
-			timer: () => timer,
-			isThresh: thresh => (hits + misses) % thresh === 0,
-			cleanup,
-			_cache: cache
-		}
-	)
+        return value
+      },
+      async set({key, value}) {
+        const result = cache.set(key, value)
+        await insureEvictions()
+        return result
+      },
+      has: (key) => cache.has(key),
+      async del(key) {
+        const result = cache.del(key)
+        await insureEvictions()
+        return result
+      },
+      async reset() {
+        await cleanup()
+        return options.init && options.init(cache)
+      },
+      timer: () => timer,
+      isThresh: (thresh) => (hits + misses) % thresh === 0,
+      cleanup,
+      _cache: cache,
+    }
+  )
 }
