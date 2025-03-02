@@ -1,13 +1,14 @@
 import zlib from 'node:zlib'
 import _assert from 'node:assert'
+import fs from 'fs-extra'
 import fastStringify from 'fast-safe-stringify'
 import _ from 'lodash'
-// import debug from 'debug'
+import debug from '@watchmen/debug'
 import {diff} from 'jsondiffpatch'
 // https://github.com/benjamine/jsondiffpatch/releases/tag/v0.6.0
 import * as consoleFormatter from 'jsondiffpatch/formatters/console'
 
-// const dbg = debug('app:helpr')
+const dbg = debug(import.meta.url)
 
 export * from './indices.js'
 export * from './is-like.js'
@@ -272,4 +273,10 @@ export function getRequired({data, field}) {
   const value = _.get(data, field)
   assert(value, () => `unable to get field=${field} from data=${stringify(data)}`)
   return value
+}
+
+export async function getPackage() {
+  const path = process.env.PACKAGE_PATH ?? '.'
+  dbg('get-package: app-path=%s', path)
+  return JSON.parse(await fs.readFile(`${path}/package.json`, 'utf8'))
 }

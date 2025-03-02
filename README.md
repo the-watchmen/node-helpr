@@ -11,8 +11,8 @@ miscellaneous helper functions
 
 ## usage
 
-* `npm i @watchmen/helpr`
-* `import {...} from '@watchmen/helpr'`
+- `npm i @watchmen/helpr`
+- `import {...} from '@watchmen/helpr'`
 
 ### opt-ins
 
@@ -21,9 +21,9 @@ miscellaneous helper functions
 1. `joi-helper`
 1. `debug`
 
-> * imported like: `import {...} from '<package name>/dist/<file name>'`
-> * certain components are made opt-in to avoid dependency bloat when not being used
-> * opt-ins will require that [`peerDependencies`](https://docs.npmjs.com/files/package.json#peerdependencies) are provided by consumer
+> - imported like: `import {...} from '<package name>/dist/<file name>'`
+> - certain components are made opt-in to avoid dependency bloat when not being used
+> - opt-ins will require that [`peerDependencies`](https://docs.npmjs.com/files/package.json#peerdependencies) are provided by consumer
 
 ## development
 
