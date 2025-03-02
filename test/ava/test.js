@@ -26,6 +26,7 @@ import {
   merge,
   toDotNotation,
   diffConsole,
+  getPackage,
 } from '../../src/index.js'
 
 const dbg = debug('test:helpr')
@@ -267,4 +268,9 @@ test('toDotNotation', (t) => {
 test('diffConsole', (t) => {
   diffConsole({expected: {foo: 'bar'}, actual: {foo: 'baz'}})
   t.pass()
+})
+
+test('package-path', async (t) => {
+  const pack = await getPackage()
+  t.is(pack.name, '@watchmen/helpr')
 })

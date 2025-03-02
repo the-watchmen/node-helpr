@@ -1,6 +1,6 @@
 {
   "name": "@watchmen/helpr",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "misc helper functions",
   "exports": "./src/index.js",
   "repository": "the-watchmen/node-helpr",
@@ -13,9 +13,10 @@
   "author": "tony kerz",
   "license": "ISC",
   "dependencies": {
-    "@watchmen/debug": "^2.0.7",
-    "@watchmen/tymer": "2.0.13",
+    "@watchmen/debug": "^2.0.8",
+    "@watchmen/tymer": "2.0.14",
     "fast-safe-stringify": "2.1.1",
+    "fs-extra": "^11.3.0",
     "jsondiffpatch": "0.6.0",
     "lodash": "4.17.21"
   },
@@ -27,9 +28,9 @@
     "minimist": ">=1.2"
   },
   "devDependencies": {
-    "@watchmen/test-helpr": "1.0.4",
+    "@watchmen/test-helpr": "2.0.0",
     "ava": "6.2.0",
-    "prettier": "3.4.2",
+    "prettier": "3.5.2",
     "xo": "0.60.0"
   }
 }
