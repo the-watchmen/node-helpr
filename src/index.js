@@ -280,3 +280,23 @@ export async function getPackage() {
   dbg('get-package: app-path=%s', path)
   return JSON.parse(await fs.readFile(`${path}/package.json`, 'utf8'))
 }
+
+export function getEnvOrObjValue({path, dflt, obj}) {
+  const toks = path.split('.')
+  const env = _.snakeCase(toks.join('_')).toUpperCase()
+  let val
+  val = process.env[env]
+  if (val) {
+    dbg('get-env-or-obj-value: obtained value=%s from env=%s (path=%s)', val, env, path)
+    return val
+  }
+
+  val = _.get(obj, path)
+  if (val) {
+    dbg('get-env-or-obj-value: no value at env=%s, obtained value=%s from path=%s', env, val, path)
+    return val
+  }
+
+  dbg('get-env-or-obj-value: no value at env=%s or path=%s, returning default=%s', env, path, dflt)
+  return dflt
+}
