@@ -1,10 +1,10 @@
 import assert from 'node:assert'
 import config from 'config'
-import debug from 'debug'
+import debug from '@watchmen/debug'
 import _ from 'lodash'
 import minimist from 'minimist'
 
-const dbg = debug('app:helpr:args')
+const dbg = debug(import.meta.url)
 const defaultPrefix = '__default__'
 const argv = minimist(process.argv.slice(2))
 
@@ -27,7 +27,7 @@ export function clearArgDefault(key) {
 }
 
 export function setArgDefault({key, value}) {
-  assert(key, 'key required')
+  assert.ok(key, 'key required')
   dbg('set-arg-default: key=%o, value=%o', key, value)
   process.env[defaultKey(key)] = value
 }
@@ -37,7 +37,7 @@ function defaultKey(key) {
 }
 
 export function getArg(key, {dflt} = {}) {
-  assert(key, 'key required')
+  assert.ok(key, 'key required')
   const argument = argv[key]
   const env = process.env[defaultKey(key)]
   const configured = _.get(config, key)

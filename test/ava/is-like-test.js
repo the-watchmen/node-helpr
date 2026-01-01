@@ -9,7 +9,7 @@ test('isLike: identical objects', (t) => {
 
 test('isLike: actual object has extra keys', (t) => {
   const expected = {a: 1}
-  const actual = Object.assign({}, expected, {b: 2})
+  const actual = {...expected, b: 2}
   t.true(isLike({expected, actual}))
 })
 

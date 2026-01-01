@@ -1,8 +1,9 @@
+/* eslint-disable no-unused-expressions */
+/* eslint-disable no-await-in-loop */
+/* eslint-disable guard-for-in */
 import {LRUCache} from 'lru-cache'
 import debug from '@watchmen/debug'
 import Timer from '@watchmen/tymer'
-
-/* eslint-disable guard-for-in, no-await-in-loop, no-unused-expressions */
 
 const dbg = debug(import.meta.url)
 

@@ -1,4 +1,5 @@
 module.exports = {
+  space: true,
   prettier: true,
   rules: {
     'eslint-comments/disable-enable-pair': 0,
