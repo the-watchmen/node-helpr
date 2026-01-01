@@ -1,11 +1,11 @@
 import assert from 'node:assert'
 import joi from 'joi'
-import debug from 'debug'
+import debug from '@watchmen/debug'
 import {MODES} from './constants.js'
 import {stringify} from './index.js'
 
 const {create, upsert} = MODES
-const dbg = debug('lib:helpr')
+const dbg = debug(import.meta.url)
 
 export function joiAssert({data, schema}) {
   const result = joi.validate(data, schema)
@@ -36,7 +36,7 @@ export const identified = joi.object({
 })
 
 export function discriminated({name, value, label, altName} = {}) {
-  assert(name && value && label, 'name, value and label required')
+  assert.ok(name && value && label, 'name, value and label required')
   return joi.object({
     [name]: joi
       .string()

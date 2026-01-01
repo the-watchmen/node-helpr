@@ -7,7 +7,7 @@
   "type": "module",
   "scripts": {
     "pretest": "xo",
-    "ava": "DEBUG=dbg:* ava",
+    "ava": "DEBUG=dbg:* DEBUG_COLORS=1 npx ava --serial",
     "test": "npm run ava"
   },
   "author": "tony kerz",
@@ -16,8 +16,8 @@
     "@watchmen/debug": "^2.0.8",
     "@watchmen/tymer": "2.0.14",
     "fast-safe-stringify": "2.1.1",
-    "fs-extra": "^11.3.0",
-    "jsondiffpatch": "0.6.0",
+    "fs-extra": "^11.3.3",
+    "jsondiffpatch": "0.7.3",
     "lodash": "4.17.21"
   },
   "peerDependencies": {
@@ -29,8 +29,8 @@
   },
   "devDependencies": {
     "@watchmen/test-helpr": "2.0.0",
-    "ava": "6.2.0",
-    "prettier": "3.5.2",
-    "xo": "0.60.0"
+    "ava": "6.4.1",
+    "prettier": "3.7.4",
+    "xo": "1.2.3"
   }
 }

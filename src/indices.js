@@ -7,8 +7,8 @@ import _ from 'lodash'
 
 export function findDeepIndices({array, path, predicate}) {
   // dbg('array=%o, path=%o', stringify(array), path)
-  assert(_.isArray(array), 'array required')
-  assert(_.isArray(path), 'path array required')
+  assert.ok(_.isArray(array), 'array required')
+  assert.ok(_.isArray(path), 'path array required')
   if (path.length > 0) {
     const result = _.transform(array, (result, value, index) => {
       // dbg('result=%o, val=%o, index=%o', result, stringify(val), index)

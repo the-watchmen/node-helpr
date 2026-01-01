@@ -1,5 +1,6 @@
 import zlib from 'node:zlib'
 import _assert from 'node:assert'
+import {Buffer} from 'node:buffer'
 import fs from 'fs-extra'
 import fastStringify from 'fast-safe-stringify'
 import _ from 'lodash'
@@ -90,7 +91,7 @@ export function getKeyArray(...fields) {
   return _.reduce(
     fields.flat(),
     (result, value) => {
-      return result ? result.concat([SEPARATOR, value].flat()) : [value].flat()
+      return result ? [...result, ...[SEPARATOR, value].flat()] : [value].flat()
     },
     null,
   )
@@ -255,10 +256,10 @@ export function toDotNotation({target, path = [], result = {}}) {
     target,
     (result, value, key) => {
       if (_.isPlainObject(value)) {
-        return toDotNotation({target: value, path: path.concat([key]), result})
+        return toDotNotation({target: value, path: [...path, key], result})
       }
 
-      result[join(path.concat([key]))] = value
+      result[join([...path, key])] = value
       return result
     },
     result,
@@ -266,7 +267,7 @@ export function toDotNotation({target, path = [], result = {}}) {
 }
 
 export function assert(test, message) {
-  _assert(test, _.isFunction(message) ? message() : message)
+  _assert.ok(test, _.isFunction(message) ? message() : message)
 }
 
 export function getRequired({data, field}) {
@@ -299,4 +300,27 @@ export function getEnvOrObjValue({path, dflt, obj}) {
 
   dbg('get-env-or-obj-value: no value at env=%s or path=%s, returning default=%s', env, path, dflt)
   return dflt
+}
+
+export function deepReplace({target, matchRe = /{{([^}]+)}}/g, replaceMap = {}}) {
+  const walk = (v) => {
+    if (_.isString(v)) {
+      const fullMatch = v.match(new RegExp(`^${matchRe.source}$`))
+      if (fullMatch) {
+        const repl = _.get(replaceMap, _.trim(fullMatch[1]))
+        return repl === undefined ? v : repl
+      }
+
+      return v.replace(matchRe, (m, token) => {
+        const repl = _.get(replaceMap, _.trim(token))
+        return repl === undefined ? m : repl
+      })
+    }
+
+    if (_.isArray(v)) return v.map((element) => walk(element))
+    if (_.isPlainObject(v)) return _.mapValues(v, walk)
+    return v
+  }
+
+  return walk(structuredClone(target))
 }

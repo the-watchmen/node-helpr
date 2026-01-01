@@ -1,11 +1,10 @@
+/* eslint-disable no-unused-expressions */
 import _ from 'lodash'
-import debug from 'debug'
+import debug from '@watchmen/debug'
 
-const dbg = debug('app:helpr:is-like')
+const dbg = debug(import.meta.url)
 
 const assertRe = /^assert\((.+)\)$/
-
-/* eslint-disable no-unused-expressions */
 
 export const isLikeHooks = {
   assert: {
