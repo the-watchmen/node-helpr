@@ -14,6 +14,15 @@ test('nested', (t) => {
   )
 })
 
+test('array', (t) => {
+  t.deepEqual(
+    deepReplace({target: {a: ['one', '{{one.two}}', 'three']}, replaceMap: {one: {two: 'two'}}}),
+    {
+      a: ['one', 'two', 'three'],
+    },
+  )
+})
+
 test('nested-obj', (t) => {
   t.deepEqual(
     deepReplace({target: {a: '{{one.two}}'}, replaceMap: {one: {two: {three: 'three'}}}}),
