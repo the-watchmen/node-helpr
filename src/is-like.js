@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-expressions */
 import _ from 'lodash'
 import debug from '@watchmen/debug'
 

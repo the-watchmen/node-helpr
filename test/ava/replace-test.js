@@ -1,8 +1,16 @@
 import test from 'ava'
-import {deepReplace} from '../../src/index.js'
+import fs from 'fs-extra'
+import debug from '@watchmen/debug'
+import {deepReplace, replaceInData, replaceInFile} from '../../src/index.js'
+
+const dbg = debug(import.meta.url)
+
+function onMatch(args) {
+  dbg('args=%o', args)
+}
 
 test('basic', (t) => {
-  t.deepEqual(deepReplace({target: {a: '{{one}}'}, replaceMap: {one: 'one'}}), {a: 'one'})
+  t.deepEqual(deepReplace({target: {a: '{{one}}'}, replaceMap: {one: 'one'}, onMatch}), {a: 'one'})
 })
 
 test('nested', (t) => {
@@ -30,4 +38,45 @@ test('nested-obj', (t) => {
       a: {three: 'three'},
     },
   )
+})
+
+test('rid-basic', (t) => {
+  t.is(
+    replaceInData({data: 'the quick brown fox', replaceMap: {brown: 'red'}}),
+    'the quick red fox',
+  )
+})
+
+test('rid-multi', (t) => {
+  t.is(
+    replaceInData({data: 'the quick brown hen and hens', replaceMap: {hen: 'cow'}}),
+    'the quick brown cow and cows',
+  )
+})
+
+test('rid-re', (t) => {
+  t.is(
+    replaceInData({
+      data: "I'm sure he's Bill or Billy or Mac or Buddy",
+      replaceMap: {'(Billy|Bill|Mac|Buddy)': 'William'},
+    }),
+    "I'm sure he's William or William or William or William",
+  )
+})
+
+test('rif-basic', async (t) => {
+  const work = '/tmp/scratch'
+  await fs.ensureDir(work)
+  const file = `${work}/scratch.dat`
+  let data = 'the quick brown fox'
+  await fs.writeFile(file, data)
+  await replaceInFile({
+    file,
+    replaceMap: {brown: 'grey', fox: 'cat'},
+    onMatch(args) {
+      dbg('file=%s, args=%o', file, args)
+    },
+  })
+  data = await fs.readFile(file, 'utf8')
+  t.is(data, 'the quick grey cat')
 })

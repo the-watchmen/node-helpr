@@ -302,19 +302,23 @@ export function getEnvOrObjValue({path, dflt, obj}) {
   return dflt
 }
 
-export function deepReplace({target, matchRe = /{{([^}]+)}}/g, replaceMap = {}}) {
+export function deepReplace({target, matchRe = '{{([^}]+)}}', replaceMap = {}, onMatch}) {
   const walk = (v) => {
     if (_.isString(v)) {
-      const fullMatch = v.match(new RegExp(`^${matchRe.source}$`))
-      if (fullMatch) {
-        const repl = _.get(replaceMap, _.trim(fullMatch[1]))
-        return repl === undefined ? v : repl
+      const match = v.match(matchRe, 'g')
+      if (match) {
+        const isFullMatch = match[0] === match.input
+        const replacement = _.get(replaceMap, _.trim(match[1]))
+        const result = isFullMatch ? replacement : v.replace(match[0], replacement)
+        dbg(
+          'deep-replace: matched: regex=%s, replacement=%s, result=%s',
+          match[0],
+          replacement,
+          result,
+        )
+        onMatch && onMatch({match: match[0], replacement, result})
+        return result
       }
-
-      return v.replace(matchRe, (m, token) => {
-        const repl = _.get(replaceMap, _.trim(token))
-        return repl === undefined ? m : repl
-      })
     }
 
     if (_.isArray(v)) return v.map((element) => walk(element))
@@ -323,4 +327,41 @@ export function deepReplace({target, matchRe = /{{([^}]+)}}/g, replaceMap = {}})
   }
 
   return walk(structuredClone(target))
+}
+
+export function replaceInData({data = '', replaceMap = {}, onMatch} = {}) {
+  const out = data === null ? '' : String(data)
+
+  return _.reduce(
+    replaceMap,
+    (result, replacement, regex) => {
+      _assert.ok(
+        regex && replacement,
+        `regex and replacement required: regex=${regex}, replacement=${replacement}`,
+      )
+      const re = new RegExp(regex, 'g')
+      const matches = result.match(re)
+
+      if (matches) {
+        const count = matches.length
+
+        dbg('replace-in-data: regex=%s, replacement=%s, count=%d', regex, replacement, count)
+        onMatch && onMatch({regex, replacement, count})
+        return result.replace(re, String(replacement))
+      }
+
+      return result
+    },
+    out,
+  )
+}
+
+export async function replaceInFile({file, replaceMap = {}, encoding = 'utf8', onMatch} = {}) {
+  _assert.ok(file, 'file required')
+
+  const data = await fs.readFile(file, encoding)
+  const out = replaceInData({data, replaceMap, onMatch})
+  await fs.writeFile(file, out, encoding)
+
+  return out
 }
