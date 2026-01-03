@@ -15,7 +15,11 @@ test('basic', (t) => {
 
 test('nested', (t) => {
   t.deepEqual(
-    deepReplace({target: {a: '{{one.two.three}}'}, replaceMap: {one: {two: {three: 'three'}}}}),
+    deepReplace({
+      target: {a: '{{one.two.three}}'},
+      replaceMap: {one: {two: {three: 'three'}}},
+      onMatch,
+    }),
     {
       a: 'three',
     },
@@ -24,7 +28,11 @@ test('nested', (t) => {
 
 test('array', (t) => {
   t.deepEqual(
-    deepReplace({target: {a: ['one', '{{one.two}}', 'three']}, replaceMap: {one: {two: 'two'}}}),
+    deepReplace({
+      target: {a: ['one', '{{one.two}}', 'three']},
+      replaceMap: {one: {two: 'two'}},
+      onMatch,
+    }),
     {
       a: ['one', 'two', 'three'],
     },
@@ -33,7 +41,7 @@ test('array', (t) => {
 
 test('nested-obj', (t) => {
   t.deepEqual(
-    deepReplace({target: {a: '{{one.two}}'}, replaceMap: {one: {two: {three: 'three'}}}}),
+    deepReplace({target: {a: '{{one.two}}'}, replaceMap: {one: {two: {three: 'three'}}}, onMatch}),
     {
       a: {three: 'three'},
     },
@@ -42,14 +50,14 @@ test('nested-obj', (t) => {
 
 test('rid-basic', (t) => {
   t.is(
-    replaceInData({data: 'the quick brown fox', replaceMap: {brown: 'red'}}),
+    replaceInData({data: 'the quick brown fox', replaceMap: {brown: 'red'}, onMatch}),
     'the quick red fox',
   )
 })
 
 test('rid-multi', (t) => {
   t.is(
-    replaceInData({data: 'the quick brown hen and hens', replaceMap: {hen: 'cow'}}),
+    replaceInData({data: 'the quick brown hen and hens', replaceMap: {hen: 'cow'}, onMatch}),
     'the quick brown cow and cows',
   )
 })
@@ -59,6 +67,7 @@ test('rid-re', (t) => {
     replaceInData({
       data: "I'm sure he's Bill or Billy or Mac or Buddy",
       replaceMap: {'(Billy|Bill|Mac|Buddy)': 'William'},
+      onMatch,
     }),
     "I'm sure he's William or William or William or William",
   )
