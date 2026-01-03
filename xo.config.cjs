@@ -13,5 +13,6 @@ module.exports = {
     'unicorn/prevent-abbreviations': 0,
     'n/prefer-global/process': ['error', 'always'],
     'unicorn/prefer-number-properties': 0,
+    'no-unused-expressions': ['error', {allowShortCircuit: true}],
   },
 }

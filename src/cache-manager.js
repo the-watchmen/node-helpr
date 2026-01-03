@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-expressions */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable guard-for-in */
 import {LRUCache} from 'lru-cache'
