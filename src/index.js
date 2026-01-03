@@ -303,7 +303,7 @@ export function getEnvOrObjValue({path, dflt, obj}) {
 }
 
 export function deepReplace({target, matchRe = '{{([^}]+)}}', replaceMap = {}, onMatch}) {
-  const walk = (v) => {
+  const walk = (v, k) => {
     if (_.isString(v)) {
       const match = v.match(matchRe, 'g')
       if (match) {
@@ -311,22 +311,23 @@ export function deepReplace({target, matchRe = '{{([^}]+)}}', replaceMap = {}, o
         const replacement = _.get(replaceMap, _.trim(match[1]))
         const result = isFullMatch ? replacement : v.replace(match[0], replacement)
         dbg(
-          'deep-replace: matched: regex=%s, replacement=%s, result=%s',
+          'deep-replace: matched: key=%s, regex=%s, replacement=%s, result=%s',
+          k,
           match[0],
           replacement,
           result,
         )
-        onMatch && onMatch({match: match[0], replacement, result})
+        onMatch && onMatch({key: k, match: match[0], replacement, result})
         return result
       }
     }
 
-    if (_.isArray(v)) return v.map((element) => walk(element))
+    if (_.isArray(v)) return v.map((elt) => walk(elt, k))
     if (_.isPlainObject(v)) return _.mapValues(v, walk)
     return v
   }
 
-  return walk(structuredClone(target))
+  return walk(structuredClone(target, null))
 }
 
 export function replaceInData({data = '', replaceMap = {}, onMatch} = {}) {
