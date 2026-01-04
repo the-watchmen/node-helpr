@@ -366,3 +366,13 @@ export async function replaceInFile({file, replaceMap = {}, encoding = 'utf8', o
 
   return out
 }
+
+export async function walk({dir, onEntry, includeDirs = false}) {
+  const entries = await fs.readdir(dir, {recursive: true, withFileTypes: true})
+  const results = _.map(entries, (e) => {
+    if (e.isFile() || (e.isDirectory() && includeDirs)) {
+      return onEntry ? onEntry({name: e.name, dirent: e}) : e
+    }
+  })
+  return Promise.all(results)
+}
