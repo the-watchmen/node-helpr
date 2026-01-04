@@ -1,6 +1,6 @@
 {
   "name": "@watchmen/helpr",
-  "version": "3.5.0",
+  "version": "3.5.1",
   "description": "misc helper functions",
   "exports": "./src/index.js",
   "repository": "the-watchmen/node-helpr",

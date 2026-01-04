@@ -1,6 +1,5 @@
 import test from 'ava'
 import debug from '@watchmen/debug'
-import fs from 'fs-extra'
 import _ from 'lodash'
 import {walk} from '../../src/index.js'
 
