@@ -1,6 +1,7 @@
 import zlib from 'node:zlib'
 import _assert from 'node:assert'
 import {Buffer} from 'node:buffer'
+import path from 'node:path'
 import fs from 'fs-extra'
 import fastStringify from 'fast-safe-stringify'
 import _ from 'lodash'
@@ -371,7 +372,14 @@ export async function walk({dir, onEntry, includeDirs = false}) {
   const entries = await fs.readdir(dir, {recursive: true, withFileTypes: true})
   const results = _.map(entries, (e) => {
     if (e.isFile() || (e.isDirectory() && includeDirs)) {
-      return onEntry ? onEntry({name: e.name, dirent: e}) : e
+      return onEntry
+        ? onEntry({
+            file: path.join(e.parentPath, e.name),
+            path: e.parentPath,
+            name: e.name,
+            dirent: e,
+          })
+        : e
     }
   })
   return Promise.all(results)
