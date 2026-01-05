@@ -8,8 +8,8 @@ const dbg = debug(import.meta.url)
 test('basic', async (t) => {
   const visitors = await walk({
     dir: './test',
-    onEntry({name}) {
-      dbg('name=%s', name)
+    onEntry(args) {
+      dbg('args=%o', args)
     },
   })
   t.truthy(visitors)
@@ -17,9 +17,9 @@ test('basic', async (t) => {
 
 test('dirent', async (t) => {
   const visitors = await walk({
-    dir: './test',
-    onEntry({dirent}) {
-      dbg('name=%s %s', dirent.name, dirent.isDirectory() ? ' (directory)' : '')
+    dir: './test/',
+    onEntry({file, dirent}) {
+      dbg('file=%s %s', file, dirent.isDirectory() ? ' (directory)' : '')
     },
     includeDirs: true,
   })
