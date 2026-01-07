@@ -368,19 +368,54 @@ export async function replaceInFile({file, replaceMap = {}, encoding = 'utf8', o
   return out
 }
 
-export async function walk({dir, onEntry, includeDirs = false}) {
+// export async function walk({dir, onEntry, includeDirs = false}) {
+//   const entries = await fs.readdir(dir, {recursive: true, withFileTypes: true})
+//   const results = _.map(entries, (e) => {
+//     if (e.isFile() || (e.isDirectory() && includeDirs)) {
+//       return onEntry
+//         ? onEntry({
+//             file: path.join(e.parentPath, e.name),
+//             path: e.parentPath,
+//             name: e.name,
+//             dirent: e,
+//           })
+//         : e
+//     }
+//   })
+//   return Promise.all(results)
+// }
+
+export async function walk({dir, onEntry, includeDirs = false, isParallel = false}) {
   const entries = await fs.readdir(dir, {recursive: true, withFileTypes: true})
-  const results = _.map(entries, (e) => {
+
+  const results = []
+  for (const e of entries) {
     if (e.isFile() || (e.isDirectory() && includeDirs)) {
-      return onEntry
-        ? onEntry({
+      let result
+      if (onEntry) {
+        if (isParallel) {
+          result = onEntry({
             file: path.join(e.parentPath, e.name),
             path: e.parentPath,
             name: e.name,
             dirent: e,
           })
-        : e
+        } else {
+          // eslint-disable-next-line no-await-in-loop
+          result = await onEntry({
+            file: path.join(e.parentPath, e.name),
+            path: e.parentPath,
+            name: e.name,
+            dirent: e,
+          })
+        }
+      } else {
+        result = e
+      }
+
+      results.push(result)
     }
-  })
-  return Promise.all(results)
+  }
+
+  return isParallel ? Promise.all(results) : results
 }
