@@ -368,23 +368,6 @@ export async function replaceInFile({file, replaceMap = {}, encoding = 'utf8', o
   return out
 }
 
-// export async function walk({dir, onEntry, includeDirs = false}) {
-//   const entries = await fs.readdir(dir, {recursive: true, withFileTypes: true})
-//   const results = _.map(entries, (e) => {
-//     if (e.isFile() || (e.isDirectory() && includeDirs)) {
-//       return onEntry
-//         ? onEntry({
-//             file: path.join(e.parentPath, e.name),
-//             path: e.parentPath,
-//             name: e.name,
-//             dirent: e,
-//           })
-//         : e
-//     }
-//   })
-//   return Promise.all(results)
-// }
-
 export async function walk({dir, onEntry, includeDirs = false, isParallel = false}) {
   const entries = await fs.readdir(dir, {recursive: true, withFileTypes: true})
 
@@ -418,4 +401,35 @@ export async function walk({dir, onEntry, includeDirs = false, isParallel = fals
   }
 
   return isParallel ? Promise.all(results) : results
+}
+
+export async function withEnv({env, closure}) {
+  const origEnv = _.reduce(
+    env,
+    (memo, v, k) => {
+      memo[k] = process.env[k]
+      dbg('with-env: stashing %s=%s', k, memo[k])
+      return memo
+    },
+    {},
+  )
+
+  // eslint-disable-next-line unicorn/no-array-for-each
+  _.forEach(env, (v, k) => {
+    process.env[k] = v
+    dbg('with-env: set %s=%s', k, v)
+  })
+
+  await closure()
+
+  // eslint-disable-next-line unicorn/no-array-for-each
+  _.forEach(origEnv, (v, k) => {
+    if (v === undefined) {
+      delete process.env[k]
+      dbg('with-env: delete %s', k)
+    } else {
+      process.env[k] = v
+      dbg('with-env: restore %s=%s', k, v)
+    }
+  })
 }
