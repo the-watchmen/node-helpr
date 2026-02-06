@@ -11,8 +11,10 @@ test('basic', async (t) => {
     dir: './test',
     onEntry(args) {
       dbg('args=%o', args)
+      return args.file
     },
   })
+  dbg('visitors=%o', visitors)
   t.truthy(visitors)
 })
 
@@ -21,9 +23,11 @@ test('dirent', async (t) => {
     dir: './test/',
     onEntry({file, dirent}) {
       dbg('file=%s %s', file, dirent.isDirectory() ? ' (directory)' : '')
+      return dirent.name
     },
     includeDirs: true,
   })
+  dbg('visitors=%o', visitors)
   t.truthy(visitors)
 })
 
@@ -47,6 +51,7 @@ test('parallel', async (t) => {
     includeDirs: true,
     isParallel: true,
   })
+  dbg('visitors=%o', visitors)
   t.truthy(visitors)
   t.true(_.isString(visitors[0]))
 })
