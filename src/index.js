@@ -370,9 +370,10 @@ export async function replaceInFile({file, replaceMap = {}, encoding = 'utf8', o
 
 export async function walk({dir, onEntry, includeDirs = false, isParallel = false}) {
   const entries = await fs.readdir(dir, {recursive: true, withFileTypes: true})
+  const _entries = _.orderBy(entries, ['name'])
 
   const results = []
-  for (const e of entries) {
+  for (const e of _entries) {
     if (e.isFile() || (e.isDirectory() && includeDirs)) {
       let result
       if (onEntry) {
