@@ -62,8 +62,16 @@ export function isBoolean(value) {
   return isSpecified(value) && ['true', 'false'].includes(value.toString())
 }
 
+export function isCsv(s) {
+  return /,/.test(s)
+}
+
 export function parseBoolean(value) {
   return isSpecified(value) && ['true'].includes(value.toString())
+}
+
+export function parseCsv(value) {
+  return value.split(',').map((env) => parseValue(env.trim()))
 }
 
 export function isSpecified(value) {
@@ -188,6 +196,10 @@ export function parseValue(value) {
   if (Array.isArray(value)) {
     // eslint-disable-next-line unicorn/no-array-callback-reference
     return value.map(parseValue)
+  }
+
+  if (isCsv(value)) {
+    return parseCsv(value)
   }
 
   return value
@@ -368,42 +380,6 @@ export async function replaceInFile({file, replaceMap = {}, encoding = 'utf8', o
   return out
 }
 
-export async function walk({dir, onEntry, includeDirs = false, isParallel = false}) {
-  const entries = await fs.readdir(dir, {recursive: true, withFileTypes: true})
-  const _entries = _.orderBy(entries, ['name'])
-
-  const results = []
-  for (const e of _entries) {
-    if (e.isFile() || (e.isDirectory() && includeDirs)) {
-      let result
-      if (onEntry) {
-        if (isParallel) {
-          result = onEntry({
-            file: path.join(e.parentPath, e.name),
-            path: e.parentPath,
-            name: e.name,
-            dirent: e,
-          })
-        } else {
-          // eslint-disable-next-line no-await-in-loop
-          result = await onEntry({
-            file: path.join(e.parentPath, e.name),
-            path: e.parentPath,
-            name: e.name,
-            dirent: e,
-          })
-        }
-      } else {
-        result = e
-      }
-
-      results.push(result)
-    }
-  }
-
-  return isParallel ? Promise.all(results) : results
-}
-
 export async function withEnv({env, closure}) {
   const origEnv = _.reduce(
     env,
@@ -433,4 +409,60 @@ export async function withEnv({env, closure}) {
       dbg('with-env: restore %s=%s', k, v)
     }
   })
+}
+
+export async function walk({
+  dir,
+  onEntry,
+  includeDirs = false,
+  onlyDirs = false,
+  depth = null,
+  isParallel = false,
+}) {
+  const rootDepth = dir.split(path.sep).length
+  const entries = await fs.readdir(dir, {recursive: true, withFileTypes: true})
+  const _entries = _.orderBy(entries, ['name'])
+
+  const results = []
+
+  let _depth
+  for (const e of _entries) {
+    if (depth !== null) {
+      _depth = e.parentPath.split(path.sep).length - rootDepth + 1
+      if (_depth > depth) continue
+    }
+
+    const include = onlyDirs ? e.isDirectory() : e.isFile() || (e.isDirectory() && includeDirs)
+
+    if (include) {
+      let result
+
+      if (onEntry) {
+        if (isParallel) {
+          result = onEntry({
+            file: path.join(e.parentPath, e.name),
+            path: e.parentPath,
+            name: e.name,
+            dirent: e,
+            depth: _depth,
+          })
+        } else {
+          // eslint-disable-next-line no-await-in-loop
+          result = await onEntry({
+            file: path.join(e.parentPath, e.name),
+            path: e.parentPath,
+            name: e.name,
+            dirent: e,
+            depth: _depth,
+          })
+        }
+      } else {
+        result = e
+      }
+
+      results.push(result)
+    }
+  }
+
+  return isParallel ? Promise.all(results) : results
 }

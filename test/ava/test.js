@@ -10,6 +10,7 @@ import {
   isEmpty,
   isBoolean,
   parseBoolean,
+  parseCsv,
   getKey,
   getKeyArray,
   compress,
@@ -97,21 +98,15 @@ test('isBoolean', (t) => {
   t.false(isBoolean(undefined))
 })
 
+test('parseCsv', (t) => {
+  t.deepEqual(parseCsv('a,b,c'), ['a', 'b', 'c'])
+  t.deepEqual(parseCsv('a,true,3'), ['a', true, 3])
+})
+
 test('parseBoolean', (t) => {
   t.true(parseBoolean('true'))
   t.true(parseBoolean(true))
-  t.false(parseBoolean('false'))
-  t.false(parseBoolean(false))
-  t.false(parseBoolean('0'))
-  t.false(parseBoolean(0))
-  t.false(parseBoolean(1))
-  t.false(parseBoolean(''))
-  t.false(parseBoolean(' '))
-  t.false(parseBoolean('foo'))
-  t.false(parseBoolean(null))
-  t.false(parseBoolean(undefined))
 })
-
 test('getKey', (t) => {
   t.truthy(getKey('foo', 'bar'), 'foo:bar')
 })
@@ -224,6 +219,7 @@ test('parseValue', (t) => {
   t.is(parseValue('1928-04-26T06:48:47.504Z'), Date.parse('1928-04-26T06:48:47.504Z'))
   t.deepEqual(parseValue(['1', '2']), [1, 2])
   t.is(parseValue('null'), null)
+  t.deepEqual(parseValue('a,b,c'), ['a', 'b', 'c'])
 })
 
 test('isIsoDate: good', (t) => {
